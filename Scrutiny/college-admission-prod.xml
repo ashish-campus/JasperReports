@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jdbcDataAdapter class="net.sf.jasperreports.data.jdbc.JdbcDataAdapterImpl"><name>college-admission-prod</name><driver>org.postgresql.Driver</driver><username>read_only_user1</username><password>vWs6@K-n@mX@w2nk</password><savePassword>true</savePassword><url>jdbc:postgresql://admission-v2.cagbuud0sqow.us-east-1.rds.amazonaws.com:5432/college_admission</url><database></database><serverAddress></serverAddress></jdbcDataAdapter>

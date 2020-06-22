@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jdbcDataAdapter class="net.sf.jasperreports.data.jdbc.JdbcDataAdapterImpl"><name>metacampus_college_dev</name><driver>org.mariadb.jdbc.Driver</driver><username>root</username><password>root</password><savePassword>true</savePassword><url>jdbc:mariadb://35.190.230.193:3306/metacampus_college</url><database></database><serverAddress></serverAddress></jdbcDataAdapter>

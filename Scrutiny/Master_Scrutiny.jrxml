@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Master_Scrutiny" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="815ac446-182b-4632-ad58-15243ad79698">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="ireport.jasperserver.url" value="http://18.234.204.79:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="devadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/MetaDomains/MetaCollege/Test/MasterScrutiny_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/MetaDomains/MetaCollege/Test/MasterScrutiny"/>
+	<parameter name="tenantId" class="java.lang.String" evaluationTime="Early"/>
+	<parameter name="applicantId" class="java.lang.Long" evaluationTime="Early"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="802" splitType="Stretch">
+			<subreport>
+				<reportElement stretchType="ContainerHeight" x="0" y="0" width="555" height="390" uuid="9d2fbee5-e73e-4922-a9a7-4fbf9e20c9c8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<subreportParameter name="tenantId">
+					<subreportParameterExpression><![CDATA[$P{tenantId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="applicantId">
+					<subreportParameterExpression><![CDATA[$P{applicantId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportExpression><![CDATA["ScrutinySheet.jrxml"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement stretchType="ContainerHeight" x="0" y="410" width="555" height="392" uuid="d35cd120-b3ed-43f5-9255-8e7d8becdb1a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<subreportParameter name="tenantId">
+					<subreportParameterExpression><![CDATA[$P{tenantId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="applicantId">
+					<subreportParameterExpression><![CDATA[$P{applicantId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportExpression><![CDATA["ScrutinySheet.jrxml"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement x="0" y="390" width="555" height="20" uuid="446565fd-b141-47c7-8ed6-d45b60a35f22"/>
+				<textElement verticalAlignment="Top"/>
+				<text><![CDATA[_______________________________________________________________________________________________________________]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

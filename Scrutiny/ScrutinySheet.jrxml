@@ -1,0 +1,583 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ScrutinySheet" pageWidth="555" pageHeight="401" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="b91d028d-7c57-4082-817c-e5319561526b">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="college-admission"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="net.sf.jasperreports.data.adapter" value="/home/rahul/JaspersoftWorkspace/Applicant-Detail/college-admission.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="211"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="781"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="applicantId" class="java.lang.Long" evaluationTime="Early"/>
+	<parameter name="tenantId" class="java.lang.String" evaluationTime="Early"/>
+	<queryString>
+		<![CDATA[select distinct
+a.id, a.form_number, a.applicant_number,
+concat(d.first_name, ' ', d.middle_name, ' ', d.last_name) as name,
+concat(d.father_first_name, ' ', d.father_middle_name, ' ', d.father_last_name) as father_name,
+concat(d.mother_first_name, ' ', d.mother_middle_name, ' ', d.mother_last_name) as mother_name,
+d.category, d.aadhar_card_number,
+(select ap.program_id from applicantprograms as ap where ap.applicant_id = $P{applicantId} and ap.cat_prog_type = 'Core' and form_type = 'Admission') as core_program_id,
+(select ap.shift from applicantprograms as ap where ap.applicant_id = $P{applicantId} and ap.cat_prog_type = 'Core' and form_type = 'Admission') as shift,
+(select ap.program_id from applicantprograms as ap where ap.applicant_id = $P{applicantId} and ap.cat_prog_type = 'AddOn' and form_type = 'Admission') as add_on_program_id,
+(select ap.shift as add_on_shift from applicantprograms as ap where ap.applicant_id = $P{applicantId} and ap.cat_prog_type = 'AddOn' and form_type = 'Admission'),
+(select discipline_id from applicantspecialisationoptions as apo where apo.applicant_id = $P{applicantId} 
+ and form_type = 'Admission' and cat_prog_type = 'Core'
+ and seq_no = 1) as first_discipline_id,
+ (select discipline_id from applicantspecialisationoptions as apo where apo.applicant_id = $P{applicantId}
+ and form_type = 'Admission' and cat_prog_type = 'Core'
+ and seq_no = 2) as second_discipline_id,
+ (select discipline_id from applicantspecialisationoptions as apo where apo.applicant_id = $P{applicantId}
+ and form_type = 'Admission' and cat_prog_type = 'Core'
+ and seq_no = 3) as third_discipline_id,
+ (select specialisation_combination_id from applicantspecialisationoptions as apo where apo.applicant_id = $P{applicantId}   
+ and seq_no = 3 and form_type = 'Admission') as bundle_number,
+  cee.entrance_exam_id, cee.is_score_required,
+cq.program as college_qualification, cq.medium as college_medium, cq.mode_of_education as college_mode_of_education,
+cq.name as college_name,
+sq.xii_school as twelth_school, sq.xii_medium as twelth_medium, sq.xii_board as twelth_board,
+ahc.hostel_identifier as hostel_name, rw.weightage_in_percent, aeed.score,
+rw.weightage_in_percent * aeed.score as total_percent
+from applicants as a
+inner join demographics as d
+on d.applicant_id = a.id
+left outer join categoryentranceexams as cee
+on cee.category_id = a.category_id
+left outer join applicantentranceexamdetails as aeed
+on aeed.applicant_id = a.id and aeed.entrance_exam_id = cee.entrance_exam_id
+left outer join collegequalifications as cq
+on cq.applicant_id = a.id
+left outer join schoolqualifications as sq
+on sq.applicant_id = a.id
+left outer join applicanthostelconveyances as ahc
+on ahc.applicant_id = a.id and ahc.form_type = 'Admission'
+left outer join categoryrelaxationweightages as crw
+on crw.category_id = a.category_id
+left outer join relaxationweightages as rw
+on rw.id = crw.relaxation_weightage_id
+ where a.tenant_id = $P{tenantId} and
+a.id = $P{applicantId};]]>
+	</queryString>
+	<field name="id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="applicants"/>
+	</field>
+	<field name="form_number" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="form_number"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="applicants"/>
+	</field>
+	<field name="applicant_number" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="applicant_number"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="applicants"/>
+	</field>
+	<field name="name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="name"/>
+	</field>
+	<field name="father_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="father_name"/>
+	</field>
+	<field name="mother_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="mother_name"/>
+	</field>
+	<field name="category" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="category"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="demographics"/>
+	</field>
+	<field name="aadhar_card_number" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="aadhar_card_number"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="demographics"/>
+	</field>
+	<field name="core_program_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="core_program_id"/>
+	</field>
+	<field name="shift" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="shift"/>
+	</field>
+	<field name="add_on_program_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="add_on_program_id"/>
+	</field>
+	<field name="add_on_shift" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="add_on_shift"/>
+	</field>
+	<field name="first_discipline_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="first_discipline_id"/>
+	</field>
+	<field name="second_discipline_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="second_discipline_id"/>
+	</field>
+	<field name="third_discipline_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="third_discipline_id"/>
+	</field>
+	<field name="bundle_number" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="bundle_number"/>
+	</field>
+	<field name="entrance_exam_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="entrance_exam_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="categoryentranceexams"/>
+	</field>
+	<field name="is_score_required" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="is_score_required"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="categoryentranceexams"/>
+	</field>
+	<field name="college_qualification" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="college_qualification"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="collegequalifications"/>
+	</field>
+	<field name="college_medium" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="college_medium"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="collegequalifications"/>
+	</field>
+	<field name="college_mode_of_education" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="college_mode_of_education"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="collegequalifications"/>
+	</field>
+	<field name="college_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="college_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="collegequalifications"/>
+	</field>
+	<field name="twelth_school" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="twelth_school"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="schoolqualifications"/>
+	</field>
+	<field name="twelth_medium" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="twelth_medium"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="schoolqualifications"/>
+	</field>
+	<field name="twelth_board" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="twelth_board"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="schoolqualifications"/>
+	</field>
+	<field name="hostel_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="hostel_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="applicanthostelconveyances"/>
+	</field>
+	<field name="weightage_in_percent" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="weightage_in_percent"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="relaxationweightages"/>
+	</field>
+	<field name="score" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="score"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="applicantentranceexamdetails"/>
+	</field>
+	<field name="total_percent" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="total_percent"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="371" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="160" height="40" uuid="fc93cd71-784b-46fa-9fce-7a3cb756d61a"/>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hostel Request]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="0" width="154" height="100" uuid="a1918981-8457-429d-a94e-270b4085bd82"/>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="0" width="110" height="49" uuid="a2ed3735-b728-4a8a-aed9-856527a9ba7a"/>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Percentage of marks
+Obtained in the
+Qualifying exam. :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="160" y="0" width="230" height="40" uuid="6cee61d5-c6d7-41b6-b260-5818052dd254"/>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top" markup="none">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[IIS (deemed to be University)
+ADMISSIONS 2020-2021
+Scrutiny Sheet]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="49" width="110" height="29" uuid="c0b3694d-8848-498a-bdf0-c75bb77d9cf4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<text><![CDATA[Weightage :
+(if any)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="79" width="110" height="20" uuid="605bfa9c-a434-40d0-877c-1b54ade0592a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<text><![CDATA[Total :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="400" height="20" uuid="9a4f063e-2503-4276-ba63-897d2841602c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<text><![CDATA[Form No.________________Registration No.  :____________________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="400" height="20" uuid="df254218-144d-4389-8f04-3dca846c3ae7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<text><![CDATA[Name of Candidate :___________________________________________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="80" width="400" height="20" uuid="f1cf2adb-066c-46dc-937e-0833698f2552">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<text><![CDATA[Father’s Name 	:_______________________________________________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-2" y="100" width="555" height="20" uuid="788d8cae-0861-4570-8605-8e29fc3a10c8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<text><![CDATA[Mother’s Name	: _____________________________________________________________________________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="120" width="555" height="20" uuid="74abe183-687a-4d45-b9a8-0f05d1d54acf">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<text><![CDATA[Category(GEN/SC/OBC/MINOR/PH)___________ Medium of Instruction(Last Qualifying examination) _____________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="140" width="555" height="20" uuid="2232edee-b46d-48ab-a4a7-3979067e6a86">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<text><![CDATA[School/College with Board :___________________________________________________________________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="160" width="400" height="20" uuid="ae84bbbd-1940-4428-a5d0-3e81d3af4eb7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<text><![CDATA[Class 	 :__________________________________Faculty : ___________________________ ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="180" width="555" height="20" uuid="6f3d2dfa-77ec-4387-aec0-f2e5dce267b3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<text><![CDATA[Sub. Code_____________ Subject Comb. 1_____________________2._______________________3.______________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="200" width="555" height="20" uuid="29f7128e-f290-4394-b1d4-231cc0e8d178">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<text><![CDATA[COSD :________________________________Activity(NSS/NCC/Cultural Activity/Sports) _____________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="220" width="555" height="20" uuid="0adfe0b7-c3e1-4c06-9443-4745282a0fb0">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<text><![CDATA[Foundation: 1.               2. (Hindi/French/German) any one _____________ Aadhar Card No.:_____________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="340" width="555" height="30" uuid="aa2a4eb3-d4d0-4f6a-9cf9-f8329c5d95e0">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<text><![CDATA[Form checked by : ___________________________________________________________________________________________
+                                                                             (Signature & Name) ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="240" width="555" height="20" uuid="6c6a0bd6-b09a-48c3-8898-0d5cadb1481d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Entries to be completed :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-2" y="320" width="555" height="20" uuid="7e528284-35fc-4dd8-9a39-3fa42b447664">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<text><![CDATA[4.	_______________________________________________________________________________________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="300" width="555" height="20" uuid="50f38074-8741-4e18-bd91-982723f7edc7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<text><![CDATA[3.	_______________________________________________________________________________________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="260" width="555" height="20" uuid="eb71648d-b9d0-4b9e-a4a8-9ceb5a1c4748">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<text><![CDATA[1.	_______________________________________________________________________________________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="280" width="555" height="20" uuid="4b09d629-fcd2-48d8-88dd-86a3c9149b43">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<text><![CDATA[2.	_______________________________________________________________________________________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="160" width="50" height="20" uuid="a32b3bb7-5b96-4c7d-afef-ed558db7250b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Shift:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="71" y="220" width="54" height="20" uuid="1917cf63-c4f6-4c9a-8efb-d95014485421">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[English]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="50" y="40" width="70" height="20" uuid="9aaa8984-5a8b-4ec7-a513-e8a3513702ee">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{form_number}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="110" y="60" width="290" height="20" uuid="fbe9c6a5-a5fb-426d-8943-f9c0e3754c0a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="90" y="80" width="310" height="20" uuid="da01cde4-e4c9-4758-8407-d519e337eeac">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{father_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="120" width="40" height="20" uuid="a0727382-5b96-4888-9ff8-1d599af4ee2c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{category}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="450" y="160" width="104" height="20" uuid="8fd0ca42-acb4-409b-9c8b-92317e81e1d7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{shift}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="140" width="240" height="20" uuid="a3e710b0-d105-44d5-99bc-c73811a1fd54">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{twelth_school}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="140" width="174" height="20" uuid="f7efe1ff-d47c-4cb4-805c-67c793b483c5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{twelth_board}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="88" y="100" width="464" height="20" uuid="5ed93cbc-7424-4dc0-b70f-4072d016062c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{mother_name}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="50" y="159" width="160" height="20" uuid="741d7a5b-ca86-4957-902c-5eab257dc9b1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<subreportParameter name="programId">
+					<subreportParameterExpression><![CDATA[$F{core_program_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportExpression><![CDATA["program.jasper"]]></subreportExpression>
+			</subreport>
+			<textField isBlankWhenNull="true">
+				<reportElement x="453" y="220" width="100" height="20" uuid="ffa82cb2-ebcf-4fc1-898d-48f8ca9f3aa9">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Bottom" markup="none"/>
+				<textFieldExpression><![CDATA[$F{aadhar_card_number}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="40" y="200" width="140" height="20" uuid="dc699f84-e196-48dc-b959-50cb72bb569a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<subreportParameter name="programId">
+					<subreportParameterExpression><![CDATA[$F{add_on_program_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportExpression><![CDATA["program.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="210" y="180" width="90" height="20" uuid="b7ab67e9-c9fe-4769-9a85-013f3bf66967">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<subreportParameter name="disciplineId">
+					<subreportParameterExpression><![CDATA[$F{first_discipline_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportExpression><![CDATA["disciplinecode.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="320" y="180" width="110" height="20" uuid="13fa507e-6ba3-4dd0-97ac-cbc695424da8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<subreportParameter name="disciplineId">
+					<subreportParameterExpression><![CDATA[$F{second_discipline_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportExpression><![CDATA["disciplinecode.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="450" y="180" width="104" height="20" uuid="4c6c4ce2-ca03-4a6c-9f8d-b26543f7cd8d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<subreportParameter name="disciplineId">
+					<subreportParameterExpression><![CDATA[$F{third_discipline_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportExpression><![CDATA["disciplinecode.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="60" y="179" width="50" height="21" uuid="145fa5cc-8929-4ea3-aa13-d8bfed096533"/>
+				<subreportParameter name="bundleNumber">
+					<subreportParameterExpression><![CDATA[$F{bundle_number}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportExpression><![CDATA["subjectcode.jasper"]]></subreportExpression>
+			</subreport>
+			<textField isBlankWhenNull="true">
+				<reportElement x="140" y="140" width="412" height="19" uuid="a62f7f45-c5e3-47ab-b68b-e323f77844fe"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{college_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="490" y="120" width="65" height="20" uuid="74437d79-94dd-453d-9656-18d58907be21"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{twelth_medium}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="491" y="120" width="63" height="20" uuid="201e3ea8-f449-405d-9389-dbe69054bca1"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{college_medium}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="40" width="180" height="20" uuid="b87f1d88-118f-46a3-ae2c-0f0c0c223700"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{applicant_number}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="10" width="140" height="20" uuid="1140e30c-8142-4e6c-bee5-1150efc48b5b"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{hostel_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="510" y="49" width="43" height="30" uuid="53da5f56-31a3-489f-a78b-50c2203d2d6d"/>
+				<textFieldExpression><![CDATA[$F{weightage_in_percent}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="510" y="0" width="45" height="49" uuid="c65bbf24-bb9b-42cd-8acb-65b17931bd44"/>
+				<textFieldExpression><![CDATA[$F{score}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="510" y="79" width="43" height="20" uuid="97c29ec6-3f2a-4c6a-8bbc-660ff9873b62"/>
+				<textFieldExpression><![CDATA[$F{total_percent}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
