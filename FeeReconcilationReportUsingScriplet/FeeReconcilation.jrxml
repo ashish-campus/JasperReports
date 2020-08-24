@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.13.0.final using JasperReports Library version 6.13.0-46ada4d1be8f3c5985fd0b6146f3ed44caed6f05  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FeeReconcilation" pageWidth="4800" pageHeight="802" columnWidth="4800" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="30af0b54-93d7-4d99-a3d3-d2287f9c6eb5">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Fee_Production"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="ireport.jasperserver.url" value="http://18.234.204.79:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="devadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/FeeReconcilation_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/FeeReconcilation"/>
+	<scriptlet name="FeeReconcilation" class="FeeReconcilationScriplet"/>
+	<parameter name="academicYearId" class="java.lang.Long" evaluationTime="Early"/>
+	<parameter name="clientIdentifiers" class="java.lang.String" evaluationTime="Early"/>
+	<queryString>
+		<![CDATA[select distinct  fm.fee_fund_id,
+ay.name as academic_year_name, ay.year_access_key, ay.organization_id
+from fee_memos fm
+inner join fee_funds ff 
+on ff.id = fm.fee_fund_id
+inner join academic_years ay 
+on ay.organization_id = ff.organization_id and ay.id = $P{academicYearId} 
+where fm.client_identifier in ($P!{clientIdentifiers})
+and ff.organization_id = ay.organization_id]]>
+	</queryString>
+	<field name="fee_fund_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="fee_fund_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fee_memos"/>
+	</field>
+	<field name="academic_year_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="academic_year_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="academic_years"/>
+	</field>
+	<field name="year_access_key" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="year_access_key"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="academic_years"/>
+	</field>
+	<field name="organization_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="organization_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="academic_years"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="60" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="1100" y="0" width="100" height="30" uuid="2727f912-20fb-456d-b257-3a2b0b817a71">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4603886b-1e6e-48e6-b052-08a4d57af765"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date of Joining]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1300" y="0" width="200" height="30" uuid="2069aa78-f6e7-4d75-94a3-d7bbdc98dfbd">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4603886b-1e6e-48e6-b052-08a4d57af765"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fees received
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="30" uuid="d67b70ae-d976-48c9-8551-1a90764c263f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0b937473-cd0d-44e9-9602-05bc7598b3f1"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[S.No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="500" y="0" width="200" height="30" uuid="2e4665b8-ee38-4a88-971f-c6f3214fa666">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4834fe4a-663f-487a-b7a9-a532ab9771d2"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="0" width="200" height="30" uuid="1e52b05a-22fd-4c49-a039-176d777efca6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0b937473-cd0d-44e9-9602-05bc7598b3f1"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reg No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1500" y="0" width="100" height="30" uuid="a85dd768-c34a-43d9-9db7-57c5e850fd39">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4603886b-1e6e-48e6-b052-08a4d57af765"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Late fine (if any)
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1700" y="0" width="100" height="30" uuid="1581bdef-48c5-4324-a694-69baf21dabfd">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4603886b-1e6e-48e6-b052-08a4d57af765"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Deposit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1000" y="0" width="100" height="30" uuid="58cc6ad4-1c50-43b1-be3d-9cd12bc0a21c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4603886b-1e6e-48e6-b052-08a4d57af765"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Semester]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="1800" y="0" width="500" height="30" uuid="ad017d6f-d114-4df5-a88b-a9987fabf3a3">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<leftPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["                 Fees Due for F.Y. ( "  + $F{academic_year_name} +" )"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="700" y="0" width="200" height="30" uuid="0513f025-6db6-492f-b2f5-dfa502b08bd4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4603886b-1e6e-48e6-b052-08a4d57af765"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Course]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="900" y="0" width="100" height="30" uuid="8ef6e2e7-1bde-4a33-8032-bd61a79890e7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4603886b-1e6e-48e6-b052-08a4d57af765"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Year]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1200" y="0" width="100" height="30" uuid="83700931-ac53-4a93-aefd-88c4af1eb1ce">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4603886b-1e6e-48e6-b052-08a4d57af765"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Termination Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1600" y="0" width="100" height="30" uuid="f27019cb-feb4-4528-af7f-eb1807be83d9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4603886b-1e6e-48e6-b052-08a4d57af765"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Any rebate/ concession
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="0" width="200" height="30" uuid="569f790d-aefc-4bfd-af15-e4e08e8d1b0d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0b937473-cd0d-44e9-9602-05bc7598b3f1"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Enrollment_No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1300" y="30" width="100" height="30" uuid="2a600ddf-2e95-4227-9546-2f6f07ccbe15">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4603886b-1e6e-48e6-b052-08a4d57af765"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cash]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1400" y="30" width="100" height="30" uuid="6c8af208-aed5-4b6b-a414-d52d348bdad8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4603886b-1e6e-48e6-b052-08a4d57af765"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cheque]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="1800" y="30" width="3000" height="30" uuid="3c14ec72-896f-4bce-8fe9-52dd68ac283e">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{FeeReconcilation_SCRIPTLET}.getGroupNames($F{fee_fund_id}))]]></dataSourceExpression>
+				<subreportExpression><![CDATA["GroupNames.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+	</title>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<subreport>
+				<reportElement x="0" y="0" width="4800" height="20" uuid="add09c49-fd49-41fa-b0be-47d4e962ffeb">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource(
+	$P{FeeReconcilation_SCRIPTLET}.getFeeData($F{fee_fund_id}, $P{academicYearId}, $P{clientIdentifiers},  $F{organization_id},$F{year_access_key}))]]></dataSourceExpression>
+				<subreportExpression><![CDATA["FeeReconcialtionDetails.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

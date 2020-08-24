@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jdbcDataAdapter class="net.sf.jasperreports.data.jdbc.JdbcDataAdapterImpl"><name>Fee_Production</name><driver>org.postgresql.Driver</driver><username>jasper</username><password>1234</password><savePassword>true</savePassword><url>jdbc:postgresql://fee-production.cagbuud0sqow.us-east-1.rds.amazonaws.com:5432/fee_production</url><database></database><serverAddress></serverAddress></jdbcDataAdapter>
